@@ -11,9 +11,6 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from bs4 import BeautifulSoup
 import pandas as pd
 
-# driver.get("https://www.tradingview.com/markets/stocks-china/market-movers-all-stocks/")
-# print(driver.title)
-# driver.quit()
 def run():
     print("""
           1st = We will introduce a webpage link and 
@@ -21,16 +18,13 @@ def run():
           that we need to do a stock fundamental analyst
           """)
     
-    url = input("Introduce an URL from Trading View: ")
-    reqs = requests.get(url)
-    soup = BeautifulSoup(reqs.text, "html.parser")
-    print(soup)
+    PATH = "C:\Program Files (x86)\chromedriver.exe"
+    driver = webdriver.Chrome(PATH)
     
-    urls={}
-    for link in soup.find_all('a'):
-        print(link.get('href'))
-        
-        
-    
+    driver.get("https://www.tradingview.com/symbols/SSE-601398/financials-overview/")
+    while True:
+        sleep(1)
+    #proximo paso : tratar de extraer el precio de la accion y el EPS  
+      
 if __name__ == "__main__":
     run()
