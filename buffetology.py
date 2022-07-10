@@ -19,15 +19,15 @@ def run():
           """)
     
     PATH = "C:\Program Files (x86)\chromedriver.exe"
-    browser = driver = webdriver.Chrome(PATH)
+    driver = webdriver.Chrome(PATH)
     
-    url = browser.get("https://www.tradingview.com/symbols/SSE-601398/financials-overview/")
-    
+    driver.get("https://www.tradingview.com/symbols/SSE-601398/financials-overview/")
+    driver.find_element
     #proximo paso : tratar de extraer el precio de la accion y el EPS
     
     # tv-category-header__price-line
       
-    eps = browser.find_element_by_xpath('//')
+    eps = 
     print(url)
     
     while True:
