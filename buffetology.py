@@ -28,7 +28,7 @@ def run():
     eps = driver.find_element(By.ID, "anchor-page-1").text
    #js-symbol-eps
     #proximo paso : tratar de extraer el precio de la accion y el EPS, seguir con curso de selenium
-    print(eps[145] + eps[146] + eps[147] + eps[148])
+    print(eps.rsplit(23))
     # tv-category-header__price-line
     driver.quit()  
 
