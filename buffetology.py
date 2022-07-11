@@ -1,5 +1,7 @@
 import os
 import time
+from turtle import title
+import selenium
 import selenium.webdriver as webdriver
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions
@@ -8,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -22,15 +25,14 @@ def run():
     driver = webdriver.Chrome(PATH)
     
     driver.get("https://www.tradingview.com/symbols/SSE-601398/financials-overview/")
-    driver.find_element
-    #proximo paso : tratar de extraer el precio de la accion y el EPS
-    
+    eps = driver.find_element(By.ID, "anchor-page-1").text
+   #js-symbol-eps
+    #proximo paso : tratar de extraer el precio de la accion y el EPS, seguir con curso de selenium
+    print(eps[145] + eps[146] + eps[147] + eps[148])
     # tv-category-header__price-line
-      
-    eps = 
-    print(url)
+    driver.quit()  
+
     
-    while True:
-        sleep(1)
+
 if __name__ == "__main__":
     run()
