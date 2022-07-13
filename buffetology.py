@@ -24,12 +24,17 @@ def run():
     PATH = "C:\Program Files (x86)\chromedriver.exe"
     driver = webdriver.Chrome(PATH)
     
-    driver.get("https://www.tradingview.com/symbols/SSE-601398/financials-overview/")
-    eps = driver.find_element(By.ID, "anchor-page-1").text
-   #js-symbol-eps
-    #proximo paso : tratar de extraer el precio de la accion y el EPS, seguir con curso de selenium
-    print(eps.rsplit(23))
-    # tv-category-header__price-line
+    driver.get("https://www.tradingview.com/symbols/SZSE-300750/")
+    header = driver.find_element(By.CLASS_NAME, "tv-symbol-header__first-line").text
+    
+    #This line will get the stock number and rate return.
+    
+    # share_number = header.rsplit()[6]
+    # stock_price = float(header.rsplit()[22])
+    # eps = float(header.rsplit()[39])
+    # rate_return = "The rate return for this share is\n" + str(round((eps / stock_price), 2) * 100) + "%"
+    print(header)
+    
     driver.quit()  
 
     
