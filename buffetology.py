@@ -23,8 +23,15 @@ def run():
     
     PATH = "C:\Program Files (x86)\chromedriver.exe"
     driver = webdriver.Chrome(PATH)
+    #Step 1: open stocks tabs
     
-    driver.get("https://www.tradingview.com/symbols/SSE-601398/")
+    driver.get("https://www.tradingview.com/markets/stocks-china/market-movers-all-stocks/")
+    quotes = driver.find_element(By.LINK_TEXT, "Quotes")
+    quotes.click()
+    large = driver.find_element(By.LINK_TEXT, "Large-cap")
+    large.click()
+    
+    # Step 1.1
     #getting the stock number from the title
     stock_number = driver.title
     stock_number = stock_number.rsplit()
@@ -48,9 +55,9 @@ def run():
     # stock_price = float(header.rsplit()[22])
     # eps = float(header.rsplit()[39])
     # rate_return = "The rate return for this share is\n" + str(round((eps / stock_price), 2) * 100) + "%"
-    print(url)
     
-    driver.quit()  
+    
+      
 
     
 
