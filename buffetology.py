@@ -24,8 +24,23 @@ def run():
     PATH = "C:\Program Files (x86)\chromedriver.exe"
     driver = webdriver.Chrome(PATH)
     
-    driver.get("https://www.tradingview.com/symbols/SZSE-300750/")
-    header = driver.find_element(By.CLASS_NAME, "tv-symbol-header__first-line").text
+    driver.get("https://www.tradingview.com/symbols/SSE-601398/")
+    #getting the stock number from the title
+    stock_number = driver.title
+    stock_number = stock_number.rsplit()
+    for stock in stock_number:
+        if stock.startswith("SZS"):
+            stock = stock.split(":")
+            print(stock[1])
+        elif stock.startswith("BSE"):
+            stock = stock.split(":")
+            print(stock[1])
+        elif stock.startswith("SSE"):
+            stock = stock.split(":")
+            print(stock[1])
+        
+        
+    # header = driver.find_element(By.ID, "/html/body[@class='search-page]/div[@class='tv-main']/div[@class='tv-content']/div[@id='js-category-content]/header[@id+'anchor-page-1]").text
     
     #This line will get the stock number and rate return.
     
@@ -33,7 +48,7 @@ def run():
     # stock_price = float(header.rsplit()[22])
     # eps = float(header.rsplit()[39])
     # rate_return = "The rate return for this share is\n" + str(round((eps / stock_price), 2) * 100) + "%"
-    print(header)
+    print(url)
     
     driver.quit()  
 
