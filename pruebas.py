@@ -24,14 +24,15 @@ def run():
     
     PATH = "C:\Program Files (x86)\chromedriver.exe"
     driver = webdriver.Chrome(PATH)
-    #Step 1: open stocks tabs
     
     url = driver.get("https://www.tradingview.com/markets/stocks-china/market-movers-all-stocks/")
     
-    
+    #Step 1: open stocks tabs 
+    # hacer que cuando llegue al final toque boton "load more y siga guardando toda las acciones"
     stock_numbers = list()
     all_stocks = driver.find_element(By.CLASS_NAME, "js-screener-markets-page-init-ssr")
     all_stocks = all_stocks.text.split()
+    print(all_stocks)
     for quotes in all_stocks:
         if re.findall("^.*([0-9]{6}).*$", quotes):
             stock_numbers.append(quotes)
@@ -51,3 +52,4 @@ def run():
     
 if __name__ == "__main__":
     run()
+    
