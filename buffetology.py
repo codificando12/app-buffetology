@@ -44,7 +44,7 @@ def run():
         if re.findall("^.*([0-9]{6}).*$", quotes):
             stock_numbers.append(quotes)
             
-    # print(stock_numbers)
+    print(stock_numbers)
     
     for click in stock_numbers:
         click_shares = driver.find_element(By.LINK_TEXT, click)

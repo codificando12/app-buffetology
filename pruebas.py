@@ -14,9 +14,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
+
 
 def run():
     print("""
@@ -29,7 +31,10 @@ def run():
     driver = webdriver.Chrome(PATH)
     #Step 1: open stocks tabs
     driver.get("https://www.tradingview.com/markets/stocks-china/market-movers-all-stocks/")
+    wait = WebDriverWait(driver, 10)
     
+    original_windows = driver.current_window_handle  
+    assert len(driver.window_handles) == 1
     
     actions = ActionChains(driver)
     
@@ -38,7 +43,7 @@ def run():
         load_button = driver.find_element(By.CLASS_NAME, "loadButton-59hnCnPW")
         actions.click(load_button)
         actions.perform()
-        time.sleep(6)
+        # time.sleep(6)
         
         
     all_stocks = driver.find_element(By.CLASS_NAME, "js-screener-markets-page-init-ssr")
@@ -50,22 +55,38 @@ def run():
             
     print(stock_numbers)
     
-
+    
+    
     # ya el codigo scanea todas las acciones, proximo paso es sacar la tasa de rentabilidad.
     for click in stock_numbers:
+        # original_windows = driver.current_window_handle  
+        # assert len(driver.window_handles) == 1
         click_shares = driver.find_element(By.LINK_TEXT, click)
         actions.click(click_shares)
         actions.perform()
-        
+        wait.until(EC.number_of_windows_to_be(2))
+        for window_handle in driver.window_handles:
+            if window_handle != original_windows:
+                driver.switch_to.window(window_handle)
+                break
+        financial = driver.find_element(By.LINK_TEXT, "Financials")
+        actions.click(financial)
+        actions.perform()
+        time.sleep(8)
+        driver.close()
+        driver.switch_to.window(original_windows)
     
+    driver.quit()
     # Make the web browser to wait until it opens the new tab
-    try:
+    # try:
     
-        all_stocks = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "js-screener-markets-page-init-ssr")))
-        print(all_stocks)
+    #     all_stocks = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "js-screener-markets-page-init-ssr")))
+    #     print(all_stocks)
         
-    except:
-        driver.quit()
+    # except:
+    #     driver.quit()
     
 if __name__ == "__main__":
     run()
+    
+s
