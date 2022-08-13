@@ -30,6 +30,7 @@ ws_more_10 = workbook["more_10"]
 ws_more_5 = workbook["more_5"]
 ws_more_0 = workbook["more_0"]
 ws_less_0 = workbook["less_0"]
+ws_stock_01 = workbook["stock_01"]
 PATH = "C:\Program Files (x86)\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 #Step 1: open stocks tabs
@@ -46,8 +47,9 @@ actions = ActionChains(driver)
 
 #I creat a list to try it
 stock_numbers = list()
+stock_01 = list()
 
-for i in range(47):
+for click_button in range(210):
     try:
         load_button = driver.find_element(By.CLASS_NAME, "loadButton-59hnCnPW")
         actions.click(load_button)
@@ -97,15 +99,27 @@ for click in stock_numbers:
     
     historical_eps = list()
     
-    # apply an accion inside the second tab, stay 5 secods and close
-    financial = driver.find_element(By.LINK_TEXT, "Financials")
-    actions.click(financial)
-    actions.perform()
+    # click on the financials reports
+    try:
+        financial = driver.find_element(By.LINK_TEXT, "Financials")
+        actions.click(financial)
+        actions.perform()
+        time.sleep(2)
+    except:
+        financial = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(By.LINK_TEXT, "Financials"))
+        actions.click(financial)
+        actions.perform()
     #class for the share number: tv-symbol-header__second-line--text
-    time.sleep(5)
+    
     stock_price = driver.find_element(By.XPATH, '//div[@class="tv-symbol-price-quote__value js-symbol-last"]/span[1]')
     print("The stock price is: " + stock_price.text)
-    stock_price = float(stock_price.text)
+    #if it can't get the stock price, it will give 0.1 and save in another list to do a manual check.
+    try: 
+        stock_price = float(stock_price.text)
+    except:
+        stock_price = 0.1
+        if stock_price == 0.1:
+            stock_01.append(click)
     statements = driver.find_element(By.LINK_TEXT, "Statements").click()
     income_statement = driver.find_element(By.LINK_TEXT, "Income statement").click()
     time.sleep(5)
@@ -296,27 +310,27 @@ for click in stock_numbers:
         return_rate = 0
     
     if return_rate >= 15:
-        share_name = driver.find_element(By.CLASS_NAME, "tv-symbol-header__second-line--text").text
+        share_name = click
         more_15_num.append(share_name)
         more_15_ret.append(return_rate)
         ws_more_15.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate >= 10:
-        share_name = driver.find_element(By.CLASS_NAME, "tv-symbol-header__second-line--text").text
+        share_name = click
         more_10_num.append(share_name)
         more_10_ret.append(return_rate)
         ws_more_10.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate >= 5:
-        share_name = driver.find_element(By.CLASS_NAME, "tv-symbol-header__second-line--text").text
+        share_name = click
         more_5_num.append(share_name)
         more_5_ret.append(return_rate)
         ws_more_5.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate >= 0:
-        share_name = driver.find_element(By.CLASS_NAME, "tv-symbol-header__second-line--text").text
+        share_name = click
         more_0_num.append(share_name)
         more_0_ret.append(return_rate)
         ws_more_0.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate <= 0:
-        share_name = driver.find_element(By.CLASS_NAME, "tv-symbol-header__second-line--text").text
+        share_name = click
         less_0_num.append(share_name)
         less_0_ret.append(return_rate)
         ws_less_0.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
@@ -358,7 +372,7 @@ for a, value in enumerate(less_0_num, start=row):
 for i, value in enumerate(less_0_ret, start=row):
     ws_less_0.cell(row=i, column=return_col).value = value
     
-
+ws_stock_01.append(stock_01)
         
 driver.quit()  
 
