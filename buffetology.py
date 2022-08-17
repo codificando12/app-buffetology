@@ -47,17 +47,20 @@ actions = ActionChains(driver)
 
 #I creat a list to try it
 stock_numbers = list()
-stock_01 = list()
+stock_01 = ""
 
 for click_button in range(210):
     try:
+        time.sleep(2)
         load_button = driver.find_element(By.CLASS_NAME, "loadButton-59hnCnPW")
         actions.click(load_button)
         actions.perform()
     except:
-        load_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(By.CLASS_NAME, "loadButton-59hnCnPW"))
-        actions.click(load_button)
-        actions.perform()
+        break
+    # except:
+    #     load_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(By.CLASS_NAME, "loadButton-59hnCnPW"))
+    #     actions.click(load_button)
+    #     actions.perform()
         
         
 all_stocks = driver.find_element(By.CLASS_NAME, "js-screener-markets-page-init-ssr")
@@ -66,21 +69,25 @@ all_stocks = all_stocks.text.split()
 for quotes in all_stocks:
     if re.findall("^.*([0-9]{6}).*$", quotes):
         stock_numbers.append(quotes)
+        if quotes.startswith("688"):
+            break
+    
+        
             
 print(stock_numbers)
 #lista that will save the shares numbers depending if the return rate is more than
-more_15_num = list()
-more_10_num = list()
-more_5_num = list()
-more_0_num = list()
-less_0_num = list()
+# more_15_num = list()
+# more_10_num = list()
+# more_5_num = list()
+# more_0_num = list()
+# less_0_num = list()
 
 #return rate list
-more_15_ret = list()
-more_10_ret = list()
-more_5_ret = list()
-more_0_ret = list()
-less_0_ret = list()
+# more_15_ret = list()
+# more_10_ret = list()
+# more_5_ret = list()
+# more_0_ret = list()
+# less_0_ret = list()
 
 
 #this loop will go through the list elements and click them
@@ -101,16 +108,21 @@ for click in stock_numbers:
     
     # click on the financials reports
     try:
+        time.sleep(5)
         financial = driver.find_element(By.LINK_TEXT, "Financials")
         actions.click(financial)
         actions.perform()
-        time.sleep(2)
+        
     except:
-        financial = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(By.LINK_TEXT, "Financials"))
+        time.sleep(15)
+        driver.refresh()
+        time.sleep(5)
+        financial = driver.find_element(By.LINK_TEXT, "Financials")
         actions.click(financial)
         actions.perform()
+        
     #class for the share number: tv-symbol-header__second-line--text
-    
+    time.sleep(5)
     stock_price = driver.find_element(By.XPATH, '//div[@class="tv-symbol-price-quote__value js-symbol-last"]/span[1]')
     print("The stock price is: " + stock_price.text)
     #if it can't get the stock price, it will give 0.1 and save in another list to do a manual check.
@@ -119,7 +131,7 @@ for click in stock_numbers:
     except:
         stock_price = 0.1
         if stock_price == 0.1:
-            stock_01.append(click)
+            stock_01 = click
     statements = driver.find_element(By.LINK_TEXT, "Statements").click()
     income_statement = driver.find_element(By.LINK_TEXT, "Income statement").click()
     time.sleep(5)
@@ -311,71 +323,76 @@ for click in stock_numbers:
     
     if return_rate >= 15:
         share_name = click
-        more_15_num.append(share_name)
-        more_15_ret.append(return_rate)
-        ws_more_15.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
+        # more_15_num.append(share_name)
+        # more_15_ret.append(return_rate)
+        ws_more_15.append({"A": share_name, "B": return_rate, "C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate >= 10:
         share_name = click
-        more_10_num.append(share_name)
-        more_10_ret.append(return_rate)
-        ws_more_10.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
+        # more_10_num.append(share_name)
+        # more_10_ret.append(return_rate)
+        ws_more_10.append({"A": share_name, "B": return_rate,"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate >= 5:
         share_name = click
-        more_5_num.append(share_name)
-        more_5_ret.append(return_rate)
-        ws_more_5.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
+        # more_5_num.append(share_name)
+        # more_5_ret.append(return_rate)
+        ws_more_5.append({"A": share_name, "B": return_rate,"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate >= 0:
         share_name = click
-        more_0_num.append(share_name)
-        more_0_ret.append(return_rate)
-        ws_more_0.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
+        # more_0_num.append(share_name)
+        # more_0_ret.append(return_rate)
+        ws_more_0.append({"A": share_name, "B": return_rate,"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     elif return_rate <= 0:
         share_name = click
-        less_0_num.append(share_name)
-        less_0_ret.append(return_rate)
-        ws_less_0.append({"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
+        # less_0_num.append(share_name)
+        # less_0_ret.append(return_rate)
+        ws_less_0.append({"A": share_name, "B": return_rate,"C": historical_eps[0], "D": historical_eps[1], "E": historical_eps[2], "F": historical_eps[3], "G": historical_eps[4], "H": historical_eps[5], "I": historical_eps[6]})
     print("the return rate for " + click + " is: " + str(return_rate) + "%")
 
     historical_eps = list()
+        
+    ws_stock_01.append(stock_01)
+    workbook.save("acciones.xlsx")
+    
     driver.close()
+    
     
     #return to the main tab to keep going through the list.
     driver.switch_to.window(original_windows)
 
 
 #share number append to excel file 
-share_col = 1
-return_col = 2
-row = 2
-for i, value in enumerate(more_15_num, start=row):
-    ws_more_15.cell(row=i, column=share_col).value = value
-for i, value in enumerate(more_15_ret, start=row):
-    ws_more_15.cell(row=i, column=return_col).value = value
+# share_col = 1
+# return_col = 2
+# row = 2
+# for i, value in enumerate(more_15_num, start=row):
+#     ws_more_15.cell(row=i, column=share_col).value = value
+# for i, value in enumerate(more_15_ret, start=row):
+#     ws_more_15.cell(row=i, column=return_col).value = value
     
-for a, value in enumerate(more_10_num, start=row):
-    ws_more_10.cell(row=a, column=share_col).value = value
-for i, value in enumerate(more_10_ret, start=row):
-    ws_more_10.cell(row=i, column=return_col).value = value
+# for a, value in enumerate(more_10_num, start=row):
+#     ws_more_10.cell(row=a, column=share_col).value = value
+# for i, value in enumerate(more_10_ret, start=row):
+#     ws_more_10.cell(row=i, column=return_col).value = value
 
-for a, value in enumerate(more_5_num, start=row):
-    ws_more_5.cell(row=a, column=share_col).value = value
-for i, value in enumerate(more_5_ret, start=row):
-    ws_more_5.cell(row=i, column=return_col).value = value
+# for a, value in enumerate(more_5_num, start=row):
+#     ws_more_5.cell(row=a, column=share_col).value = value
+# for i, value in enumerate(more_5_ret, start=row):
+#     ws_more_5.cell(row=i, column=return_col).value = value
     
-for a, value in enumerate(more_0_num, start=row):
-    ws_more_0.cell(row=a, column=share_col).value = value
-for i, value in enumerate(more_0_ret, start=row):
-    ws_more_0.cell(row=i, column=return_col).value = value
+# for a, value in enumerate(more_0_num, start=row):
+#     ws_more_0.cell(row=a, column=share_col).value = value
+# for i, value in enumerate(more_0_ret, start=row):
+#     ws_more_0.cell(row=i, column=return_col).value = value
     
-for a, value in enumerate(less_0_num, start=row):
-    ws_less_0.cell(row=a, column=share_col).value = value
-for i, value in enumerate(less_0_ret, start=row):
-    ws_less_0.cell(row=i, column=return_col).value = value
+# for a, value in enumerate(less_0_num, start=row):
+#     ws_less_0.cell(row=a, column=share_col).value = value
+# for i, value in enumerate(less_0_ret, start=row):
+#     ws_less_0.cell(row=i, column=return_col).value = value
     
-ws_stock_01.append(stock_01)
+# ws_stock_01.append(stock_01)
         
 driver.quit()  
 
-workbook.save("acciones.xlsx")
+
 
     
