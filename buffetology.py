@@ -132,6 +132,7 @@ for click in stock_numbers:
         stock_price = 0.1
         if stock_price == 0.1:
             stock_01 = click
+            ws_stock_01.append(stock_01)
     statements = driver.find_element(By.LINK_TEXT, "Statements").click()
     income_statement = driver.find_element(By.LINK_TEXT, "Income statement").click()
     time.sleep(5)
@@ -350,7 +351,7 @@ for click in stock_numbers:
 
     historical_eps = list()
         
-    ws_stock_01.append(stock_01)
+    
     workbook.save("acciones.xlsx")
     
     driver.close()
