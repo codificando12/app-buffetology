@@ -23,7 +23,8 @@ def convert_unicode(unicode):
             return unicode
     except :
         return "N/A"
-    
+
+count = 0    
 workbook = openpyxl.load_workbook("acciones.xlsx")
 ws_more_15 = workbook["more_15"]
 ws_more_10 = workbook["more_10"]
@@ -52,7 +53,7 @@ stock_01 = ""
 for click_button in range(210):
     try:
         time.sleep(2)
-        load_button = driver.find_element(By.CLASS_NAME, "loadButton-59hnCnPW")
+        load_button = driver.find_element(By.CLASS_NAME, "loadButton-OjUP_iev")
         actions.click(load_button)
         actions.perform()
     except:
@@ -68,7 +69,8 @@ all_stocks = all_stocks.text.split()
     
 for quotes in all_stocks:
     if re.findall("^.*([0-9]{6}).*$", quotes):
-        stock_numbers.append(quotes)
+        if quotes > "605222":
+            stock_numbers.append(quotes)
         if quotes.startswith("688"):
             break
     
@@ -138,7 +140,7 @@ for click in stock_numbers:
     time.sleep(5)
     
     try:
-        last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[7]/div[1]/div[1]')
+        last_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[7]/div[1]/div[1]')
         last_eps = last_eps.text
         print("The last EPS is: " + last_eps)
         
@@ -147,28 +149,28 @@ for click in stock_numbers:
         #append historical EPS
         
         
-        first_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+        first_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
         first_eps = convert_unicode(first_eps.text)
         historical_eps.append(first_eps)
-        second_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[2]/div[1]/div[1]')
+        second_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[2]/div[1]/div[1]')
         second_eps = convert_unicode(second_eps.text)
         historical_eps.append(second_eps)
-        thrid_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[3]/div[1]/div[1]')
+        thrid_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[3]/div[1]/div[1]')
         thrid_eps = convert_unicode(thrid_eps.text)
         historical_eps.append(thrid_eps)
-        fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[4]/div[1]/div[1]')
+        fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[4]/div[1]/div[1]')
         fourth_eps = convert_unicode(fourth_eps.text)
         historical_eps.append(fourth_eps)
-        fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[5]/div[1]/div[1]')
+        fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[5]/div[1]/div[1]')
         fifth_eps = convert_unicode(fifth_eps.text)
         historical_eps.append(fifth_eps)
-        sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[6]/div[1]/div[1]')
+        sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[6]/div[1]/div[1]')
         sixth_eps = convert_unicode(sixth_eps.text)
         historical_eps.append(sixth_eps)
         historical_eps.append(last_eps)
     except:
         try:
-            last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[6]/div[1]/div[1]')
+            last_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[6]/div[1]/div[1]')
             last_eps = last_eps.text
             print("The last EPS is: " + last_eps)
             
@@ -177,26 +179,26 @@ for click in stock_numbers:
             #append historical EPS
             first_eps = 0
             historical_eps.append(first_eps)
-            second_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+            second_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
             second_eps = convert_unicode(second_eps.text)
             historical_eps.append(second_eps)
-            thrid_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[2]/div[1]/div[1]')
+            thrid_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[2]/div[1]/div[1]')
             thrid_eps = convert_unicode(thrid_eps.text)
             historical_eps.append(thrid_eps)
-            fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[3]/div[1]/div[1]')
+            fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[3]/div[1]/div[1]')
             fourth_eps = convert_unicode(fourth_eps.text)
             historical_eps.append(fourth_eps)
-            fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[4]/div[1]/div[1]')
+            fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[4]/div[1]/div[1]')
             fifth_eps = convert_unicode(fifth_eps.text)
             historical_eps.append(fifth_eps)
-            sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[5]/div[1]/div[1]')
+            sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[5]/div[1]/div[1]')
             sixth_eps = convert_unicode(sixth_eps.text)
             historical_eps.append(sixth_eps)
             historical_eps.append(last_eps)
         except:
             
             try:
-                last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[5]/div[1]/div[1]')
+                last_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[5]/div[1]/div[1]')
                 last_eps = last_eps.text
                 print("The last EPS is: " + last_eps)
                 
@@ -207,22 +209,22 @@ for click in stock_numbers:
                 historical_eps.append(first_eps)
                 second_eps = 0
                 historical_eps.append(second_eps)
-                thrid_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+                thrid_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
                 thrid_eps = convert_unicode(thrid_eps.text)
                 historical_eps.append(thrid_eps)
-                fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[2]/div[1]/div[1]')
+                fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[2]/div[1]/div[1]')
                 fourth_eps = convert_unicode(fourth_eps.text)
                 historical_eps.append(fourth_eps)
-                fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[3]/div[1]/div[1]')
+                fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[3]/div[1]/div[1]')
                 fifth_eps = convert_unicode(fifth_eps.text)
                 historical_eps.append(fifth_eps)
-                sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[4]/div[1]/div[1]')
+                sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[4]/div[1]/div[1]')
                 sixth_eps = convert_unicode(sixth_eps.text)
                 historical_eps.append(sixth_eps)
                 historical_eps.append(last_eps)
             except:
                 try:
-                    last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[4]/div[1]/div[1]')
+                    last_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[4]/div[1]/div[1]')
                     last_eps = last_eps.text
                     print("The last EPS is: " + last_eps)
                     
@@ -235,19 +237,19 @@ for click in stock_numbers:
                     historical_eps.append(second_eps)
                     thrid_eps = 0
                     historical_eps.append(thrid_eps)
-                    fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+                    fourth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
                     fourth_eps = convert_unicode(fourth_eps.text)
                     historical_eps.append(fourth_eps)
-                    fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[2]/div[1]/div[1]')
+                    fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[2]/div[1]/div[1]')
                     fifth_eps = convert_unicode(fifth_eps.text)
                     historical_eps.append(fifth_eps)
-                    sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[3]/div[1]/div[1]')
+                    sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[3]/div[1]/div[1]')
                     sixth_eps = convert_unicode(sixth_eps.text)
                     historical_eps.append(sixth_eps)
                     historical_eps.append(last_eps)
                 except:
                     try:
-                        last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[3]/div[1]/div[1]')
+                        last_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[3]/div[1]/div[1]')
                         last_eps = last_eps.text
                         print("The last EPS is: " + last_eps)
                         
@@ -262,16 +264,16 @@ for click in stock_numbers:
                         historical_eps.append(thrid_eps)
                         fourth_eps = 0
                         historical_eps.append(fourth_eps)
-                        fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+                        fifth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
                         fifth_eps = convert_unicode(fifth_eps.text)
                         historical_eps.append(fifth_eps)
-                        sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[2]/div[1]/div[1]')
+                        sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[2]/div[1]/div[1]')
                         sixth_eps = convert_unicode(sixth_eps.text)
                         historical_eps.append(sixth_eps)
                         historical_eps.append(last_eps)
                     except:
                         try:
-                            last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[2]/div[1]/div[1]')
+                            last_eps = driver.find_element(By.XPATH, '//div[@class="ccontainer-dmT8KupB"]/div[20]/div[5]/div[2]/div[1]/div[1]')
                             last_eps = last_eps.text
                             print("The last EPS is: " + last_eps)
                             
@@ -288,13 +290,13 @@ for click in stock_numbers:
                             historical_eps.append(fourth_eps)
                             fifth_eps = 0
                             historical_eps.append(fifth_eps)
-                            sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+                            sixth_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
                             sixth_eps = convert_unicode(sixth_eps.text)
                             historical_eps.append(sixth_eps)
                             historical_eps.append(last_eps)
                         except:
                             
-                            last_eps = driver.find_element(By.XPATH, '//div[@class="container-Odj0lQp6"]/div[20]/div[5]/div[1]/div[1]/div[1]')
+                            last_eps = driver.find_element(By.XPATH, '//div[@class="container-dmT8KupB"]/div[20]/div[5]/div[1]/div[1]/div[1]')
                             last_eps = last_eps.text
                             print("The last EPS is: " + last_eps)
                                 
@@ -359,7 +361,11 @@ for click in stock_numbers:
     
     #return to the main tab to keep going through the list.
     driver.switch_to.window(original_windows)
-
+    
+    total = len(stock_numbers)
+    count += 1
+    print(count)
+    print("left: " + str(total - count))
 
 #share number append to excel file 
 # share_col = 1
@@ -396,4 +402,3 @@ driver.quit()
 
 
 
-    
